@@ -37,3 +37,8 @@ kotlin {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+// Don't create -plain.jar that is wrongly picked by heroku
+tasks.named<Jar>("jar") {
+    enabled = false
+}
