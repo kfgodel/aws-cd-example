@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+        }
+        .content {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>Welcome</h1>
+    <p><strong>Browser:</strong> <span id="browser"></span></p>
+    <p><strong>User Agent:</strong> <span id="user-agent"></span></p>
+    <p><strong>Current Time:</strong> <span id="current-time"></span></p>
+</div>
+
+<script>
+    // Get browser and user agent information
+    const browserSpan = document.getElementById('browser');
+    const userAgentSpan = document.getElementById('user-agent');
+    const currentTimeSpan = document.getElementById('current-time');
+
+    // Display user agent
+    userAgentSpan.textContent = navigator.userAgent;
+
+    // Detect and display browser name
+    const detectBrowser = () => {
+        const userAgent = navigator.userAgent.toLowerCase();
+        if (userAgent.indexOf('chrome') > -1 && userAgent.indexOf('edg') === -1) return 'Google Chrome';
+        if (userAgent.indexOf('safari') > -1 && userAgent.indexOf('chrome') === -1) return 'Safari';
+        if (userAgent.indexOf('firefox') > -1) return 'Mozilla Firefox';
+        if (userAgent.indexOf('edg') > -1) return 'Microsoft Edge';
+        return 'Unknown Browser';
+    };
+    browserSpan.textContent = detectBrowser();
+
+    // Display the current time and update it every second
+    const updateTime = () => {
+        const now = new Date();
+        currentTimeSpan.textContent = now.toLocaleString();
+    };
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
+</body>
+</html>
