@@ -29,7 +29,7 @@ Test by opening a browser to http://localhost:8080/actuator/health
 ```bash 
 heroku login
 heroku create
-git push heroku main
+git push heroku heroku_cli_cd:main
 ```
 Test by opening a browser to https://enigmatic-retreat-23023-8d15c8c2b578.herokuapp.com/actuator/health
 
