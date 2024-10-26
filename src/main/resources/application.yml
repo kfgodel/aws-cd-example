@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: aws-cd-example
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,metrics,prometheus
