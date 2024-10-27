@@ -11,44 +11,48 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: gradle
 
       - name: Build with Gradle
         run: ./gradlew build --no-daemon
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload JAR to repository
+        uses: actions/upload-artifact@v4
         with:
           name: example-app
           path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 1
+          overwrite: true
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v3
+      - name: Download JAR from repository
+        uses: actions/download-artifact@v4
         with:
           name: example-app
           path: example-app
 
-      - name: Add SSH key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Register EC2 SSH key
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.EC2_KEY }}
 
-      - name: Copy JAR to EC2
+      - name: Copy JAR to EC2 server
         run: |
           scp -o StrictHostKeyChecking=no example-app/*.jar ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/app.jar
 
-      - name: Deploy on EC2
+      - name: Restart EC2 Java process
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           # Optional: Stop previous Java application if it's running
