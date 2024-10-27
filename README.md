@@ -64,4 +64,5 @@ Test accessing http://ec2-public-dns-name:8080/actuator/health
   - EC2_KEY: Your EC2 instance’s private key. Copy the private key file’s contents and paste it here.
 
 #### Deploy with new changes From [ec2-deploy.yml](.github/workflows/ec2-deploy.yml)
-- Push your changes to the `aws_ec2_ssh` branch.
+- Push your changes to the `aws_ec2_ssh` branch.  
+Test accessing http://ec2-public-dns-name:8080/actuator/health
